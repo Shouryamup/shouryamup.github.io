@@ -49,7 +49,7 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLaunchMode ? 'text-gradient' : ''}`}>
+          <h2 className={`text-3xl md:text-5xl font-bold mb-6 ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
             {isBlueprintMode ? '// INITIATE_CONTACT' : "Let's Connect"}
           </h2>
           

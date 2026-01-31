@@ -88,29 +88,29 @@
   }
 
   /* ================================
-   * MODE B: THE LAUNCH
+   * MODE B: THE LAUNCH (High-Fi)
    * Premium dark mode with neon accents
    * ================================ */
   .launch-mode {
     /* Launch Colors - Deep charcoal with neon accents */
     --background: 240 10% 4%;
-    --foreground: 0 0% 95%;
+    --foreground: 0 0% 98%;
     
     --card: 240 10% 8%;
-    --card-foreground: 0 0% 95%;
+    --card-foreground: 0 0% 98%;
     
     --popover: 240 10% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover-foreground: 0 0% 98%;
     
     /* Neon cyan primary */
     --primary: 180 100% 50%;
     --primary-foreground: 240 10% 4%;
     
     --secondary: 240 10% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary-foreground: 0 0% 98%;
     
     --muted: 240 10% 20%;
-    --muted-foreground: 0 0% 65%;
+    --muted-foreground: 0 0% 70%;
     
     /* Neon magenta accent */
     --accent: 320 100% 60%;
@@ -124,6 +124,9 @@
     --ring: 180 100% 50%;
     
     --radius: 12px;
+    
+    /* Heading colors for visibility */
+    --heading: 0 0% 100%;
     
     /* Launch-specific tokens */
     --font-mono: 'JetBrains Mono', monospace;

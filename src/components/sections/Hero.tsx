@@ -49,7 +49,7 @@ const Hero = () => {
             >
               <span className="section-label -top-6 left-0">&lt;h1&gt;</span>
               <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-4 ${
-                isLaunchMode ? 'text-gradient' : ''
+                isLaunchMode ? 'text-white' : 'text-foreground'
               }`}>
                 {personal.name}
               </h1>

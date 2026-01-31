@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
 import { portfolioData } from '@/data/portfolioData';
@@ -11,9 +12,41 @@ const projectImages: Record<string, string> = {
   asl: projectAsl,
 };
 
+// Keywords to highlight on hover
+const KEYWORDS = [
+  'React', 'React.js', 'Node.js', 'Express.js', 'AWS', 'S3', 'RDS', 'CloudFront',
+  'Azure', 'OpenAI', 'MSSQL', 'MySQL', 'Python', 'PyTorch', 'NumPy', 'ResNet',
+  'Deep Learning', 'Agentic AI', 'Copilot Studio'
+];
+
+const highlightKeywords = (text: string, isHovered: boolean, isLaunchMode: boolean) => {
+  const regex = new RegExp(`\\b(${KEYWORDS.join('|').replace(/\./g, '\\.')})\\b`, 'gi');
+  const parts = text.split(regex);
+  
+  return parts.map((part, index) => {
+    const isKeyword = KEYWORDS.some(kw => kw.toLowerCase() === part.toLowerCase());
+    if (isKeyword) {
+      return (
+        <span
+          key={index}
+          className={`font-semibold transition-colors duration-300 ${
+            isHovered 
+              ? isLaunchMode ? 'text-primary' : 'text-foreground' 
+              : ''
+          }`}
+        >
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
+};
+
 const Projects = () => {
   const { isLaunchMode, isBlueprintMode } = useDesignMode();
   const { projects } = portfolioData;
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   return (
     <section className="relative px-6 py-20" id="projects">
@@ -27,7 +60,7 @@ const Projects = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className={`text-3xl md:text-4xl font-bold ${isLaunchMode ? 'text-gradient' : ''}`}>
+          <h2 className={`text-3xl md:text-4xl font-bold ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
             {isBlueprintMode ? '// FEATURED_PROJECTS' : 'Projects'}
           </h2>
         </motion.div>
@@ -41,6 +74,8 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
+              onMouseEnter={() => setHoveredCard(project.id)}
+              onMouseLeave={() => setHoveredCard(null)}
             >
               <span className="section-label top-2 left-2 z-10">&lt;article&gt;</span>
               
@@ -65,14 +100,16 @@ const Projects = () => {
 
               <div className="p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-bold">
+                  <h3 className={`text-lg font-bold ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
                     {isBlueprintMode ? `[${project.id.toUpperCase()}] ` : ''}{project.name}
                   </h3>
-                  <span className="text-xs text-muted-foreground font-mono">{project.period.split(' – ')[0]}</span>
+                  <span className={`text-xs font-mono ${isLaunchMode ? 'text-primary' : 'text-muted-foreground'}`}>
+                    {project.period.split(' – ')[0]}
+                  </span>
                 </div>
 
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                  {project.description}
+                <p className={`text-sm mb-4 line-clamp-3 ${isLaunchMode ? 'text-gray-300' : 'text-muted-foreground'}`}>
+                  {highlightKeywords(project.description, hoveredCard === project.id, isLaunchMode)}
                 </p>
 
                 {/* Tech Stack */}
@@ -80,9 +117,9 @@ const Projects = () => {
                   {project.tech.slice(0, 4).map((tech, tIndex) => (
                     <span
                       key={tIndex}
-                      className={`text-xs px-2 py-1 font-mono ${
+                      className={`text-xs px-2 py-1 font-mono transition-colors duration-300 ${
                         isLaunchMode 
-                          ? 'skill-badge' 
+                          ? `skill-badge ${hoveredCard === project.id ? 'border-primary text-primary' : ''}` 
                           : 'border border-dashed border-foreground/30'
                       }`}
                     >

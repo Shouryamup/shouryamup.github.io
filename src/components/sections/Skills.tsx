@@ -25,7 +25,7 @@ const Skills = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className={`text-3xl md:text-4xl font-bold ${isLaunchMode ? 'text-gradient' : ''}`}>
+          <h2 className={`text-3xl md:text-4xl font-bold ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
             {isBlueprintMode ? '// TECHNICAL_SKILLS' : 'Skills'}
           </h2>
         </motion.div>
