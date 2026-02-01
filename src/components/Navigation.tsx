@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
-import { Home, Briefcase, FolderKanban, Code2, Mail, User, Sparkles, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Menu, Home, Briefcase, FolderKanban, Code2, Mail, User, Sparkles, X } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 
 const sections = [
   { id: 'hero', label: 'Home', icon: Home },
@@ -16,15 +17,13 @@ const sections = [
 const Navigation = () => {
   const { isLaunchMode, isBlueprintMode } = useDesignMode();
   const [activeSection, setActiveSection] = useState('hero');
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show nav after scrolling 100px
       setIsVisible(window.scrollY > 100);
 
-      // Determine active section
       const sectionElements = sections.map(s => ({
         id: s.id,
         element: document.getElementById(s.id),
@@ -50,49 +49,53 @@ const Navigation = () => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setIsOpen(false);
     }
   };
 
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.nav
-          initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -100, opacity: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className={`fixed left-4 top-1/2 -translate-y-1/2 z-40 ${
-            isLaunchMode ? 'glass-card' : 'blueprint-container bg-background'
-          }`}
-          style={{ borderRadius: isLaunchMode ? '12px' : '0' }}
-          onMouseEnter={() => setIsExpanded(true)}
-          onMouseLeave={() => setIsExpanded(false)}
+          className="fixed top-20 right-4 z-40"
         >
-          <div className="p-2">
-            {/* Expand/Collapse indicator */}
-            <motion.button
-              className={`absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full ${
-                isLaunchMode 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-foreground text-background'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsExpanded(!isExpanded)}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <motion.button
+                className={`flex items-center justify-center w-12 h-12 rounded-full glow-hover ${
+                  isLaunchMode ? 'glass-card' : 'blueprint-container bg-background'
+                }`}
+                style={{
+                  borderRadius: isLaunchMode ? '9999px' : '0',
+                  border: isBlueprintMode ? '2px dashed hsl(var(--foreground))' : undefined,
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Menu size={20} className="text-foreground" />
+              </motion.button>
+            </SheetTrigger>
+            <SheetContent 
+              side="right" 
+              className={`w-72 ${isLaunchMode ? 'glass-card border-l border-primary/20' : 'blueprint-container'}`}
             >
-              {isExpanded ? <ChevronLeft size={12} /> : <ChevronRight size={12} />}
-            </motion.button>
+              <SheetTitle className={`text-lg font-semibold mb-6 ${isBlueprintMode ? 'font-mono' : ''}`}>
+                {isBlueprintMode ? '[NAVIGATION]' : 'Navigation'}
+              </SheetTitle>
+              <nav className="space-y-2">
+                {sections.map((section) => {
+                  const Icon = section.icon;
+                  const isActive = activeSection === section.id;
 
-            <ul className="space-y-1">
-              {sections.map((section) => {
-                const Icon = section.icon;
-                const isActive = activeSection === section.id;
-
-                return (
-                  <motion.li key={section.id}>
-                    <button
+                  return (
+                    <motion.button
+                      key={section.id}
                       onClick={() => scrollToSection(section.id)}
-                      className={`flex items-center gap-3 px-3 py-2 w-full text-left transition-all duration-400 ease-in-out ${
+                      className={`flex items-center gap-3 px-4 py-3 w-full text-left transition-all duration-[400ms] ease-in-out ${
                         isActive
                           ? isLaunchMode
                             ? 'text-primary bg-primary/10'
@@ -102,30 +105,28 @@ const Navigation = () => {
                             : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
                       }`}
                       style={{ borderRadius: isLaunchMode ? '8px' : '0' }}
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <Icon size={18} className="flex-shrink-0" />
-                      <AnimatePresence mode="wait">
-                        {isExpanded && (
-                          <motion.span
-                            initial={{ opacity: 0, width: 0 }}
-                            animate={{ opacity: 1, width: 'auto' }}
-                            exit={{ opacity: 0, width: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className={`text-sm font-medium whitespace-nowrap overflow-hidden ${
-                              isBlueprintMode ? 'font-mono' : ''
-                            }`}
-                          >
-                            {isBlueprintMode ? `[${section.id.toUpperCase()}]` : section.label}
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                    </button>
-                  </motion.li>
-                );
-              })}
-            </ul>
-          </div>
-        </motion.nav>
+                      <Icon size={20} className="flex-shrink-0" />
+                      <span className={`text-sm font-medium ${isBlueprintMode ? 'font-mono' : ''}`}>
+                        {isBlueprintMode ? `[${section.id.toUpperCase()}]` : section.label}
+                      </span>
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeIndicator"
+                          className={`ml-auto w-2 h-2 rounded-full ${
+                            isLaunchMode ? 'bg-primary' : 'bg-foreground'
+                          }`}
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </motion.div>
       )}
     </AnimatePresence>
   );
