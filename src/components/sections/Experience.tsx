@@ -19,7 +19,7 @@ const highlightKeywords = (text: string, isHovered: boolean, isLaunchMode: boole
       return (
         <span
           key={index}
-          className={`font-semibold transition-colors duration-300 ${
+          className={`font-semibold transition-colors duration-[400ms] ease-in-out ${
             isHovered 
               ? isLaunchMode ? 'text-primary' : 'text-foreground' 
               : ''

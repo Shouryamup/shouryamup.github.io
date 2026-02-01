@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
 import { portfolioData } from '@/data/portfolioData';
+import { ExternalLink, Download, Award } from 'lucide-react';
 
 const Contact = () => {
   const { isLaunchMode, isBlueprintMode } = useDesignMode();
@@ -19,24 +20,66 @@ const Contact = () => {
       <div className="max-w-4xl mx-auto">
         {/* Certifications */}
         <motion.div
-          className={`blueprint-container p-6 rounded-lg mb-12 ${isLaunchMode ? 'glass-card' : ''}`}
+          className={`blueprint-container p-6 mb-12 ${isLaunchMode ? 'glass-card' : ''}`}
+          style={{ borderRadius: isLaunchMode ? '12px' : '0' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className={`text-sm font-mono mb-4 ${isLaunchMode ? 'text-primary' : 'text-muted-foreground'}`}>
+          <h3 className={`text-lg font-bold mb-6 flex items-center gap-2 ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+            <Award size={20} className={isLaunchMode ? 'text-primary' : ''} />
             {isBlueprintMode ? '// CERTIFICATIONS' : 'Certifications & Achievements'}
           </h3>
           
-          <ul className="space-y-3">
+          <ul className="space-y-4">
             {achievements.map((achievement, index) => (
-              <li key={index} className="flex items-start gap-3 text-sm">
-                <span className={`mt-1 ${isLaunchMode ? 'text-primary' : 'text-foreground'}`}>
+              <motion.li 
+                key={index} 
+                className={`flex items-start gap-3 p-3 transition-colors duration-400 ease-in-out ${
+                  isLaunchMode 
+                    ? 'bg-primary/5 rounded-lg border border-primary/10 hover:border-primary/30' 
+                    : 'border border-dashed border-foreground/20 hover:border-foreground/50'
+                }`}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
+                <span className={`mt-0.5 ${isLaunchMode ? 'text-primary' : 'text-foreground'}`}>
                   {isBlueprintMode ? '→' : '◆'}
                 </span>
-                <span className="text-muted-foreground">{achievement}</span>
-              </li>
+                <div className="flex-1">
+                  <span className={`font-medium ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                    {achievement.title}
+                  </span>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className={`text-sm ${isLaunchMode ? 'text-gray-400' : 'text-muted-foreground'}`}>
+                      {achievement.issuer}
+                    </span>
+                    {achievement.verifyUrl && (
+                      <a
+                        href={achievement.verifyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center gap-1 text-xs transition-colors duration-400 ease-in-out ${
+                          isLaunchMode 
+                            ? 'text-primary hover:text-accent' 
+                            : 'text-foreground hover:text-muted-foreground underline'
+                        }`}
+                      >
+                        {isBlueprintMode ? '[VERIFY]' : 'Verify'}
+                        <ExternalLink size={10} />
+                      </a>
+                    )}
+                  </div>
+                  {achievement.description && (
+                    <p className={`text-xs mt-1 ${isLaunchMode ? 'text-gray-500' : 'text-muted-foreground'}`}>
+                      {achievement.description}
+                    </p>
+                  )}
+                </div>
+              </motion.li>
             ))}
           </ul>
         </motion.div>
@@ -53,12 +96,28 @@ const Contact = () => {
             {isBlueprintMode ? '// INITIATE_CONTACT' : "Let's Connect"}
           </h2>
           
-          <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
+          <p className={`mb-8 max-w-lg mx-auto ${isLaunchMode ? 'text-gray-400' : 'text-muted-foreground'}`}>
             {isBlueprintMode 
               ? '/* Ready to discuss opportunities and collaborate on exciting projects */'
               : "I'm always open to discussing new opportunities and innovative projects."
             }
           </p>
+
+          {/* Resume Download */}
+          <motion.a
+            href={personal.resumeUrl}
+            download
+            className={`inline-flex items-center gap-2 px-8 py-4 font-medium text-lg mb-8 transition-all duration-400 ease-in-out ${
+              isLaunchMode 
+                ? 'bg-primary text-primary-foreground rounded-lg hover:shadow-[0_0_30px_hsl(180,100%,50%,0.4)]' 
+                : 'border-2 border-foreground bg-foreground text-background hover:bg-transparent hover:text-foreground'
+            }`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Download size={20} />
+            {isBlueprintMode ? '[DOWNLOAD_RESUME]' : 'Download Resume'}
+          </motion.a>
 
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {socialLinks.map((link) => (
@@ -67,7 +126,7 @@ const Contact = () => {
                 href={link.href}
                 target={link.label !== 'PHONE' ? '_blank' : undefined}
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 px-6 py-3 font-mono text-sm uppercase tracking-wider blueprint-container glow-hover ${
+                className={`inline-flex items-center gap-2 px-6 py-3 font-mono text-sm uppercase tracking-wider blueprint-container glow-hover transition-all duration-400 ease-in-out ${
                   isLaunchMode 
                     ? 'glass-card rounded-lg hover:border-primary/50' 
                     : ''
@@ -80,7 +139,7 @@ const Contact = () => {
           </div>
 
           {/* Location */}
-          <p className="text-sm text-muted-foreground font-mono">
+          <p className={`text-sm font-mono ${isLaunchMode ? 'text-gray-400' : 'text-muted-foreground'}`}>
             {isBlueprintMode 
               ? `// LOCATION: ${personal.location}` 
               : `📍 ${personal.location}`
@@ -98,7 +157,7 @@ const Contact = () => {
         transition={{ duration: 0.6 }}
       >
         <span className="section-label top-2 left-4">&lt;footer&gt;</span>
-        <p className="text-xs text-muted-foreground font-mono">
+        <p className={`text-xs font-mono ${isLaunchMode ? 'text-gray-500' : 'text-muted-foreground'}`}>
           {isBlueprintMode 
             ? `/* ${personal.name} © ${new Date().getFullYear()} | Built with React + TypeScript */`
             : `© ${new Date().getFullYear()} ${personal.name}. Crafted with precision.`

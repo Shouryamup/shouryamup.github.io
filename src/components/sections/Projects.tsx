@@ -1,10 +1,18 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
 import { portfolioData } from '@/data/portfolioData';
+import { X, ExternalLink, Github, ChevronRight } from 'lucide-react';
 import projectIntellibank from '@/assets/project-intellibank.jpg';
 import projectGatorhive from '@/assets/project-gatorhive.jpg';
 import projectAsl from '@/assets/project-asl.jpg';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 const projectImages: Record<string, string> = {
   intellibank: projectIntellibank,
@@ -29,7 +37,7 @@ const highlightKeywords = (text: string, isHovered: boolean, isLaunchMode: boole
       return (
         <span
           key={index}
-          className={`font-semibold transition-colors duration-300 ${
+          className={`font-semibold transition-colors duration-[400ms] ease-in-out ${
             isHovered 
               ? isLaunchMode ? 'text-primary' : 'text-foreground' 
               : ''
@@ -43,10 +51,13 @@ const highlightKeywords = (text: string, isHovered: boolean, isLaunchMode: boole
   });
 };
 
+type Project = typeof portfolioData.projects[0];
+
 const Projects = () => {
   const { isLaunchMode, isBlueprintMode } = useDesignMode();
   const { projects } = portfolioData;
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
     <section className="relative px-6 py-20" id="projects">
@@ -69,13 +80,16 @@ const Projects = () => {
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
-              className={`blueprint-container overflow-hidden rounded-lg ${isLaunchMode ? 'glass-card glow-hover' : ''}`}
+              className={`blueprint-container overflow-hidden cursor-pointer ${isLaunchMode ? 'glass-card glow-hover' : ''}`}
+              style={{ borderRadius: isLaunchMode ? '12px' : '0' }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
               onMouseEnter={() => setHoveredCard(project.id)}
               onMouseLeave={() => setHoveredCard(null)}
+              onClick={() => setSelectedProject(project)}
+              whileHover={{ y: -5 }}
             >
               <span className="section-label top-2 left-2 z-10">&lt;article&gt;</span>
               
@@ -113,11 +127,11 @@ const Projects = () => {
                 </p>
 
                 {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.slice(0, 4).map((tech, tIndex) => (
                     <span
                       key={tIndex}
-                      className={`text-xs px-2 py-1 font-mono transition-colors duration-300 ${
+                      className={`text-xs px-2 py-1 font-mono transition-colors duration-[400ms] ease-in-out ${
                         isLaunchMode 
                           ? `skill-badge ${hoveredCard === project.id ? 'border-primary text-primary' : ''}` 
                           : 'border border-dashed border-foreground/30'
@@ -132,11 +146,125 @@ const Projects = () => {
                     </span>
                   )}
                 </div>
+
+                {/* View Details Button */}
+                <div className={`flex items-center gap-2 text-sm font-medium transition-colors duration-[400ms] ease-in-out ${
+                  isLaunchMode ? 'text-primary' : 'text-foreground'
+                }`}>
+                  <span>{isBlueprintMode ? '[VIEW_DETAILS]' : 'View Details'}</span>
+                  <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Project Modal */}
+      <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
+        <DialogContent className={`max-w-2xl max-h-[90vh] overflow-y-auto ${
+          isLaunchMode ? 'bg-card border-primary/20' : ''
+        }`}>
+          {selectedProject && (
+            <>
+              <DialogHeader>
+                <DialogTitle className={`text-2xl ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                  {selectedProject.name}
+                </DialogTitle>
+                <DialogDescription className={isLaunchMode ? 'text-gray-400' : ''}>
+                  {selectedProject.period}
+                </DialogDescription>
+              </DialogHeader>
+
+              {/* Project Image */}
+              <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
+                {isBlueprintMode ? (
+                  <div className="asset-placeholder w-full h-full flex flex-col items-center justify-center">
+                    <span className="text-4xl font-bold">X</span>
+                    <span className="text-xs mt-2 uppercase">[ASSET_{selectedProject.id.toUpperCase()}]</span>
+                  </div>
+                ) : (
+                  <img
+                    src={projectImages[selectedProject.image]}
+                    alt={selectedProject.name}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+
+              {/* Full Description */}
+              <div className="space-y-4">
+                <div>
+                  <h4 className={`text-lg font-semibold mb-2 ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                    {isBlueprintMode ? '/* DESCRIPTION */' : 'About'}
+                  </h4>
+                  <p className={`text-sm leading-relaxed ${isLaunchMode ? 'text-gray-300' : 'text-muted-foreground'}`}>
+                    {selectedProject.fullDescription}
+                  </p>
+                </div>
+
+                {/* Features */}
+                <div>
+                  <h4 className={`text-lg font-semibold mb-2 ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                    {isBlueprintMode ? '/* KEY_FEATURES */' : 'Key Features'}
+                  </h4>
+                  <ul className="space-y-2">
+                    {selectedProject.features?.map((feature, index) => (
+                      <li key={index} className={`flex items-start gap-2 text-sm ${isLaunchMode ? 'text-gray-300' : 'text-muted-foreground'}`}>
+                        <span className={`mt-1.5 w-1.5 h-1.5 flex-shrink-0 ${
+                          isLaunchMode ? 'rounded-full bg-primary' : 'bg-foreground'
+                        }`} />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Tech Stack */}
+                <div>
+                  <h4 className={`text-lg font-semibold mb-2 ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                    {isBlueprintMode ? '/* TECH_STACK */' : 'Technologies'}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.tech.map((tech, index) => (
+                      <span
+                        key={index}
+                        className={`text-xs px-3 py-1 font-mono ${
+                          isLaunchMode 
+                            ? 'skill-badge border-primary/30 text-primary' 
+                            : 'border border-dashed border-foreground/30'
+                        }`}
+                      >
+                        {isBlueprintMode ? `[${tech}]` : tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-4 pt-4 border-t border-border">
+                  {selectedProject.githubUrl !== undefined && (
+                    <a
+                      href={selectedProject.githubUrl || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-[400ms] ease-in-out ${
+                        isLaunchMode 
+                          ? 'bg-primary/10 text-primary border border-primary/30 hover:bg-primary/20 rounded-lg' 
+                          : 'border border-dashed border-foreground hover:bg-foreground/10'
+                      } ${!selectedProject.githubUrl ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      onClick={(e) => !selectedProject.githubUrl && e.preventDefault()}
+                    >
+                      <Github size={16} />
+                      {isBlueprintMode ? '[VIEW_CODE]' : 'View Code'}
+                    </a>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
       
       <span className="section-label bottom-4 right-4">&lt;/section&gt;</span>
     </section>
