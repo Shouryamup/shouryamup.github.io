@@ -3,7 +3,6 @@ import DesignToggle from '@/components/DesignToggle';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/sections/Hero';
 import About from '@/components/sections/About';
-import Inspirations from '@/components/sections/Inspirations';
 import Experience from '@/components/sections/Experience';
 import Projects from '@/components/sections/Projects';
 import Skills from '@/components/sections/Skills';
@@ -23,7 +22,6 @@ const Index = () => {
           <Projects />
           <Skills />
           <Contact />
-          <Inspirations />
         </main>
       </div>
     </DesignModeProvider>

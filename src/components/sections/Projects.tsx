@@ -51,7 +51,16 @@ const highlightKeywords = (text: string, isHovered: boolean, isLaunchMode: boole
   });
 };
 
-type Project = typeof portfolioData.projects[0] & { highlights?: string[] };
+type Project = {
+  id: string;
+  name: string;
+  tech: string[];
+  period: string;
+  description: string;
+  image: string;
+  githubUrl: string;
+  highlights: string[];
+};
 
 const Projects = () => {
   const { isLaunchMode, isBlueprintMode } = useDesignMode();
@@ -199,7 +208,7 @@ const Projects = () => {
                     {isBlueprintMode ? '/* KEY_HIGHLIGHTS */' : 'Key Highlights'}
                   </h4>
                   <ul className="space-y-3">
-                    {selectedProject.highlights?.map((highlight, index) => (
+                    {selectedProject.highlights.map((highlight, index) => (
                       <li key={index} className={`flex items-start gap-3 text-sm leading-relaxed ${isLaunchMode ? 'text-gray-300' : 'text-muted-foreground'}`}>
                         <span className={`mt-1.5 w-2 h-2 flex-shrink-0 ${
                           isLaunchMode ? 'rounded-full bg-primary' : 'bg-foreground'

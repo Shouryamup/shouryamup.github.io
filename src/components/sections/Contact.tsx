@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
 import { portfolioData } from '@/data/portfolioData';
-import { ExternalLink, Download, Award } from 'lucide-react';
+import { ExternalLink, Download } from 'lucide-react';
+import Inspirations from './Inspirations';
 
 const Contact = () => {
   const { isLaunchMode, isBlueprintMode } = useDesignMode();
@@ -157,6 +158,9 @@ const Contact = () => {
           </p>
         </motion.div>
       </div>
+
+      {/* Inspirations Section - right after Certifications */}
+      <Inspirations />
 
       {/* Footer */}
       <motion.footer

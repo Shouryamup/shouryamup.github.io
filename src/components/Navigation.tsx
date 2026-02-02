@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
-import { Menu, Home, Briefcase, FolderKanban, Code2, Mail, User, Sparkles, X } from 'lucide-react';
+import { Menu, Home, Briefcase, FolderKanban, Code2, Mail, User } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 
 const sections = [
   { id: 'hero', label: 'Home', icon: Home },
   { id: 'about', label: 'About', icon: User },
-  { id: 'inspirations', label: 'Inspirations', icon: Sparkles },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
   { id: 'skills', label: 'Skills', icon: Code2 },
