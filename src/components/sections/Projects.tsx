@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
 import { portfolioData } from '@/data/portfolioData';
-import { X, ExternalLink, Github, ChevronRight } from 'lucide-react';
+import { Github, ChevronRight } from 'lucide-react';
 import projectIntellibank from '@/assets/project-intellibank.jpg';
 import projectGatorhive from '@/assets/project-gatorhive.jpg';
 import projectAsl from '@/assets/project-asl.jpg';
@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const projectImages: Record<string, string> = {
   intellibank: projectIntellibank,
@@ -171,96 +172,101 @@ const Projects = () => {
 
       {/* Project Modal */}
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className={`max-w-2xl max-h-[90vh] overflow-y-auto ${
-          isLaunchMode ? 'bg-card border-primary/20' : ''
-        }`}>
+        <DialogContent
+          className={`max-w-2xl overflow-hidden p-0 ${
+            isLaunchMode ? 'bg-card border-primary/20' : ''
+          }`}
+        >
           {selectedProject && (
-            <>
-              <DialogHeader>
-                <DialogTitle className={`text-2xl ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
-                  {selectedProject.name}
-                </DialogTitle>
-                <DialogDescription className={isLaunchMode ? 'text-gray-400' : ''}>
-                  {selectedProject.period}
-                </DialogDescription>
-              </DialogHeader>
+            <ScrollArea className="max-h-[85vh]">
+              <div className="space-y-6 p-6">
+                <DialogHeader className="pr-8">
+                  <DialogTitle className={`text-2xl ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                    {selectedProject.name}
+                  </DialogTitle>
+                  <DialogDescription className={isLaunchMode ? 'text-gray-400' : ''}>
+                    {selectedProject.period}
+                  </DialogDescription>
+                </DialogHeader>
 
-              {/* Project Image */}
-              <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
-                {isBlueprintMode ? (
-                  <div className="asset-placeholder w-full h-full flex flex-col items-center justify-center">
-                    <span className="text-4xl font-bold">X</span>
-                    <span className="text-xs mt-2 uppercase">[ASSET_{selectedProject.id.toUpperCase()}]</span>
-                  </div>
-                ) : (
-                  <img
-                    src={projectImages[selectedProject.image]}
-                    alt={selectedProject.name}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-
-              {/* Key Highlights from Resume */}
-              <div className="space-y-4">
-                <div>
-                  <h4 className={`text-lg font-semibold mb-3 ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
-                    {isBlueprintMode ? '/* KEY_HIGHLIGHTS */' : 'Key Highlights'}
-                  </h4>
-                  <ul className="space-y-3">
-                    {selectedProject.highlights.map((highlight, index) => (
-                      <li key={index} className={`flex items-start gap-3 text-sm leading-relaxed ${isLaunchMode ? 'text-gray-300' : 'text-muted-foreground'}`}>
-                        <span className={`mt-1.5 w-2 h-2 flex-shrink-0 ${
-                          isLaunchMode ? 'rounded-full bg-primary' : 'bg-foreground'
-                        }`} />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Tech Stack */}
-                <div>
-                  <h4 className={`text-lg font-semibold mb-2 ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
-                    {isBlueprintMode ? '/* TECH_STACK */' : 'Technologies'}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.tech.map((tech, index) => (
-                      <span
-                        key={index}
-                        className={`text-xs px-3 py-1 font-mono ${
-                          isLaunchMode 
-                            ? 'skill-badge border-primary/30 text-primary' 
-                            : 'border border-dashed border-foreground/30'
-                        }`}
-                      >
-                        {isBlueprintMode ? `[${tech}]` : tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-4 pt-4 border-t border-border">
-                  {selectedProject.githubUrl !== undefined && (
-                    <a
-                      href={selectedProject.githubUrl || '#'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-[400ms] ease-in-out ${
-                        isLaunchMode 
-                          ? 'bg-primary/10 text-primary border border-primary/30 hover:bg-primary/20 rounded-lg' 
-                          : 'border border-dashed border-foreground hover:bg-foreground/10'
-                      } ${!selectedProject.githubUrl ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      onClick={(e) => !selectedProject.githubUrl && e.preventDefault()}
-                    >
-                      <Github size={16} />
-                      {isBlueprintMode ? '[VIEW_CODE]' : 'View Code'}
-                    </a>
+                <div className="relative aspect-video overflow-hidden rounded-lg">
+                  {isBlueprintMode ? (
+                    <div className="asset-placeholder flex h-full w-full flex-col items-center justify-center">
+                      <span className="text-4xl font-bold">X</span>
+                      <span className="mt-2 text-xs uppercase">[ASSET_{selectedProject.id.toUpperCase()}]</span>
+                    </div>
+                  ) : (
+                    <img
+                      src={projectImages[selectedProject.image]}
+                      alt={selectedProject.name}
+                      className="h-full w-full object-cover"
+                    />
                   )}
                 </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <h4 className={`mb-3 text-lg font-semibold ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                      {isBlueprintMode ? '/* KEY_HIGHLIGHTS */' : 'Key Highlights'}
+                    </h4>
+                    <ul className="space-y-3">
+                      {selectedProject.highlights.map((highlight, index) => (
+                        <li
+                          key={index}
+                          className={`flex items-start gap-3 text-sm leading-relaxed ${isLaunchMode ? 'text-gray-300' : 'text-muted-foreground'}`}
+                        >
+                          <span
+                            className={`mt-1.5 h-2 w-2 flex-shrink-0 ${
+                              isLaunchMode ? 'rounded-full bg-primary' : 'bg-foreground'
+                            }`}
+                          />
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className={`mb-2 text-lg font-semibold ${isLaunchMode ? 'text-white' : 'text-foreground'}`}>
+                      {isBlueprintMode ? '/* TECH_STACK */' : 'Technologies'}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.tech.map((tech, index) => (
+                        <span
+                          key={index}
+                          className={`text-xs px-3 py-1 font-mono ${
+                            isLaunchMode
+                              ? 'skill-badge border-primary/30 text-primary'
+                              : 'border border-dashed border-foreground/30'
+                          }`}
+                        >
+                          {isBlueprintMode ? `[${tech}]` : tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 border-t border-border pt-4">
+                    {selectedProject.githubUrl !== undefined && (
+                      <a
+                        href={selectedProject.githubUrl || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-[400ms] ease-in-out ${
+                          isLaunchMode
+                            ? 'bg-primary/10 text-primary border border-primary/30 hover:bg-primary/20 rounded-lg'
+                            : 'border border-dashed border-foreground hover:bg-foreground/10'
+                        } ${!selectedProject.githubUrl ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        onClick={(e) => !selectedProject.githubUrl && e.preventDefault()}
+                      >
+                        <Github size={16} />
+                        {isBlueprintMode ? '[VIEW_CODE]' : 'View Code'}
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
-            </>
+            </ScrollArea>
           )}
         </DialogContent>
       </Dialog>
