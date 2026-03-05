@@ -48,7 +48,7 @@
     --radius: 0px;
     
     /* Blueprint-specific tokens */
-    --grid-color: 0 0% 85%;
+    --grid-color: 0 0% 92%;
     --dashed-border: 2px dashed hsl(0 0% 0%);
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
     --font-sans: 'JetBrains Mono', 'Courier New', monospace;
@@ -62,15 +62,15 @@
       0deg,
       transparent,
       transparent 19px,
-      hsl(0 0% 85%) 19px,
-      hsl(0 0% 85%) 20px
+      hsl(var(--grid-color)) 19px,
+      hsl(var(--grid-color)) 20px
     ),
     repeating-linear-gradient(
       90deg,
       transparent,
       transparent 19px,
-      hsl(0 0% 85%) 19px,
-      hsl(0 0% 85%) 20px
+      hsl(var(--grid-color)) 19px,
+      hsl(var(--grid-color)) 20px
     );
     
     /* No glow in blueprint */
