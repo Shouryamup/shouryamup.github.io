@@ -70,7 +70,7 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section className="relative px-6 py-20" id="projects">
+    <section className="relative px-6 py-16" id="projects">
       <span className="section-label top-4 left-4">&lt;section id="projects"&gt;</span>
       
       <div className="max-w-6xl mx-auto">
@@ -90,7 +90,7 @@ const Projects = () => {
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
-              className={`blueprint-container overflow-hidden cursor-pointer ${isLaunchMode ? 'glass-card glow-hover' : ''}`}
+              className={`group blueprint-container overflow-hidden cursor-pointer ${isLaunchMode ? 'glass-card glow-hover' : ''}`}
               style={{ borderRadius: isLaunchMode ? '12px' : '0' }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -246,24 +246,23 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-4 border-t border-border pt-4">
-                    {selectedProject.githubUrl !== undefined && (
+                  {selectedProject.githubUrl && (
+                    <div className="flex gap-4 border-t border-border pt-4">
                       <a
-                        href={selectedProject.githubUrl || '#'}
+                        href={selectedProject.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-[400ms] ease-in-out ${
                           isLaunchMode
                             ? 'bg-primary/10 text-primary border border-primary/30 hover:bg-primary/20 rounded-lg'
                             : 'border border-dashed border-foreground hover:bg-foreground/10'
-                        } ${!selectedProject.githubUrl ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        onClick={(e) => !selectedProject.githubUrl && e.preventDefault()}
+                        }`}
                       >
                         <Github size={16} />
                         {isBlueprintMode ? '[VIEW_CODE]' : 'View Code'}
                       </a>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </ScrollArea>
