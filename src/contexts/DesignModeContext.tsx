@@ -11,11 +11,30 @@ interface DesignModeContextType {
 
 const DesignModeContext = createContext<DesignModeContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'design-mode';
+
+const readStoredMode = (): DesignMode => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored === 'launch' ? 'launch' : 'blueprint';
+  } catch {
+    return 'blueprint';
+  }
+};
+
 export const DesignModeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [mode, setMode] = useState<DesignMode>('blueprint');
+  const [mode, setMode] = useState<DesignMode>(readStoredMode);
 
   const toggleMode = () => {
-    setMode(prev => prev === 'blueprint' ? 'launch' : 'blueprint');
+    setMode(prev => {
+      const next = prev === 'blueprint' ? 'launch' : 'blueprint';
+      try {
+        localStorage.setItem(STORAGE_KEY, next);
+      } catch {
+        // localStorage unavailable (private browsing, etc.) — mode just won't persist
+      }
+      return next;
+    });
   };
 
   useEffect(() => {
