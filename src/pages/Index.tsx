@@ -1,5 +1,7 @@
 import { DesignModeProvider, useDesignMode } from '@/contexts/DesignModeContext';
 import SiteChrome from '@/components/dev/SiteChrome';
+import ScrollCursor from '@/components/dev/ScrollCursor';
+import ReadmeBlock from '@/components/dev/ReadmeBlock';
 import Hero from '@/components/sections/Hero';
 import About from '@/components/sections/About';
 import Experience from '@/components/sections/Experience';
@@ -9,12 +11,18 @@ import Inspirations from '@/components/sections/Inspirations';
 import Contact from '@/components/sections/Contact';
 
 const PageBody = () => {
-  const { isCodeMode } = useDesignMode();
+  const { isCodeMode, isLiveMode } = useDesignMode();
 
   return (
-    <div className={isCodeMode ? 'min-h-screen bg-[#1e1e1e] md:pl-52' : 'min-h-screen bg-white'}>
+    <div className={isCodeMode ? 'min-h-screen bg-[#1e1e1e] md:pl-52' : 'min-h-screen bg-background relative'}>
       <SiteChrome />
-      <main className={isCodeMode ? 'max-w-3xl mx-auto px-4 py-8 pt-16 space-y-8' : 'pt-16'}>
+      {isLiveMode && <ScrollCursor />}
+      <main className={isCodeMode ? 'max-w-4xl mx-auto' : 'relative'}>
+        {isCodeMode && (
+          <div id="readme">
+            <ReadmeBlock />
+          </div>
+        )}
         <Hero />
         <About />
         <Experience />

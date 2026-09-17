@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import { Menu, FileCode2 } from 'lucide-react';
+import { Menu, FileCode2, FileText } from 'lucide-react';
 import { useDesignMode } from '@/contexts/DesignModeContext';
 import { useActiveSection } from '@/hooks/use-active-section';
-import { siteSections } from '@/data/sections';
+import { siteSections, SiteSection } from '@/data/sections';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
+
+const codeFiles: SiteSection[] = [
+  { id: 'readme', label: 'Readme', fileName: 'README.md', icon: FileText },
+  ...siteSections,
+];
 
 const ModeToggle = () => {
   const { mode, toggleMode } = useDesignMode();
@@ -26,7 +31,7 @@ const ModeToggle = () => {
 const FileTree = ({ activeId, onSelect }: { activeId: string; onSelect: (id: string) => void }) => (
   <nav className="py-3">
     <h5 className="px-4 mb-2 text-[11px] tracking-wide text-[#bbbbbb]">portfolio</h5>
-    {siteSections.map((section) => {
+    {codeFiles.map((section) => {
       const Icon = section.icon;
       const isActive = section.id === activeId;
       return (
@@ -47,7 +52,7 @@ const FileTree = ({ activeId, onSelect }: { activeId: string; onSelect: (id: str
 
 const SiteChrome = () => {
   const { isCodeMode } = useDesignMode();
-  const { activeId, scrollToSection } = useActiveSection(siteSections);
+  const { activeId, scrollToSection } = useActiveSection(isCodeMode ? codeFiles : siteSections);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (id: string) => {
