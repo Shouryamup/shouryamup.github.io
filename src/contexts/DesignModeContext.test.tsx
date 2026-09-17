@@ -7,9 +7,9 @@ describe("DesignModeContext", () => {
     localStorage.clear();
   });
 
-  it("defaults to blueprint mode when nothing is stored", () => {
+  it("defaults to code mode when nothing is stored", () => {
     const { result } = renderHook(() => useDesignMode(), { wrapper: DesignModeProvider });
-    expect(result.current.mode).toBe("blueprint");
+    expect(result.current.mode).toBe("code");
   });
 
   it("persists the mode to localStorage when toggled", () => {
@@ -17,15 +17,15 @@ describe("DesignModeContext", () => {
 
     act(() => result.current.toggleMode());
 
-    expect(result.current.mode).toBe("launch");
-    expect(localStorage.getItem("design-mode")).toBe("launch");
+    expect(result.current.mode).toBe("live");
+    expect(localStorage.getItem("design-mode")).toBe("live");
   });
 
   it("restores a previously persisted mode on mount", () => {
-    localStorage.setItem("design-mode", "launch");
+    localStorage.setItem("design-mode", "live");
 
     const { result } = renderHook(() => useDesignMode(), { wrapper: DesignModeProvider });
 
-    expect(result.current.mode).toBe("launch");
+    expect(result.current.mode).toBe("live");
   });
 });

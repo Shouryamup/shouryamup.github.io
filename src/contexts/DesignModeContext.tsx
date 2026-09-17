@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-type DesignMode = 'blueprint' | 'launch';
+type DesignMode = 'code' | 'live';
 
 interface DesignModeContextType {
   mode: DesignMode;
   toggleMode: () => void;
-  isLaunchMode: boolean;
-  isBlueprintMode: boolean;
+  isLiveMode: boolean;
+  isCodeMode: boolean;
 }
 
 const DesignModeContext = createContext<DesignModeContextType | undefined>(undefined);
@@ -16,9 +16,9 @@ const STORAGE_KEY = 'design-mode';
 const readStoredMode = (): DesignMode => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored === 'launch' ? 'launch' : 'blueprint';
+    return stored === 'live' ? 'live' : 'code';
   } catch {
-    return 'blueprint';
+    return 'code';
   }
 };
 
@@ -27,7 +27,7 @@ export const DesignModeProvider: React.FC<{ children: ReactNode }> = ({ children
 
   const toggleMode = () => {
     setMode(prev => {
-      const next = prev === 'blueprint' ? 'launch' : 'blueprint';
+      const next = prev === 'code' ? 'live' : 'code';
       try {
         localStorage.setItem(STORAGE_KEY, next);
       } catch {
@@ -39,12 +39,12 @@ export const DesignModeProvider: React.FC<{ children: ReactNode }> = ({ children
 
   useEffect(() => {
     const root = document.documentElement;
-    if (mode === 'launch') {
-      root.classList.add('launch-mode');
-      document.body.classList.add('launch-mode');
+    if (mode === 'live') {
+      root.classList.add('live-mode');
+      document.body.classList.add('live-mode');
     } else {
-      root.classList.remove('launch-mode');
-      document.body.classList.remove('launch-mode');
+      root.classList.remove('live-mode');
+      document.body.classList.remove('live-mode');
     }
   }, [mode]);
 
@@ -53,8 +53,8 @@ export const DesignModeProvider: React.FC<{ children: ReactNode }> = ({ children
       value={{
         mode,
         toggleMode,
-        isLaunchMode: mode === 'launch',
-        isBlueprintMode: mode === 'blueprint',
+        isLiveMode: mode === 'live',
+        isCodeMode: mode === 'code',
       }}
     >
       {children}
