@@ -8,7 +8,7 @@ const About = () => {
   const { personal, about } = portfolioData;
 
   return (
-    <section className="relative px-6 py-20" id="about">
+    <section className="relative px-6 py-16" id="about">
       <span className="section-label top-4 left-4">&lt;section id="about"&gt;</span>
       
       <div className="max-w-5xl mx-auto">

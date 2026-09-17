@@ -39,7 +39,7 @@ const Experience = () => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   return (
-    <section className="relative px-6 py-20" id="experience">
+    <section className="relative px-6 py-16" id="experience">
       <span className="section-label top-4 left-4">&lt;section id="experience"&gt;</span>
       
       <div className="max-w-4xl mx-auto">

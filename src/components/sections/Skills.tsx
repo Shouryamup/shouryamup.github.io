@@ -48,7 +48,7 @@ const Skills = () => {
   ];
 
   return (
-    <section className="relative px-6 py-20" id="skills">
+    <section className="relative px-6 py-16" id="skills">
       <span className="section-label top-4 left-4">&lt;section id="skills"&gt;</span>
       
       <div className="max-w-5xl mx-auto">
