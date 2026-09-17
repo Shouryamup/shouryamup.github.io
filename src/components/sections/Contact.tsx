@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
 import { portfolioData } from '@/data/portfolioData';
 import { ExternalLink, Download } from 'lucide-react';
-import Inspirations from './Inspirations';
 
 const Contact = () => {
   const { isLaunchMode, isBlueprintMode } = useDesignMode();
@@ -15,7 +14,7 @@ const Contact = () => {
   ];
 
   return (
-    <section className="relative px-6 py-20" id="contact">
+    <section className="relative px-6 py-16" id="contact">
       <span className="section-label top-4 left-4">&lt;section id="contact"&gt;</span>
       
       <div className="max-w-5xl mx-auto">
@@ -158,9 +157,6 @@ const Contact = () => {
           </p>
         </motion.div>
       </div>
-
-      {/* Inspirations Section - right after Certifications */}
-      <Inspirations />
 
       {/* Footer */}
       <motion.footer

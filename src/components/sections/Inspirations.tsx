@@ -8,9 +8,9 @@ const Inspirations = () => {
   const { inspirations } = portfolioData;
 
   return (
-    <div className="relative py-16 mt-12" id="inspirations">
-      <span className="section-label top-4 left-4">&lt;div id="inspirations"&gt;</span>
-      
+    <section className="relative px-6 py-16" id="inspirations">
+      <span className="section-label top-4 left-4">&lt;section id="inspirations"&gt;</span>
+
       <div className="max-w-5xl mx-auto">
         <motion.div
           className="mb-12"
@@ -74,8 +74,8 @@ const Inspirations = () => {
         </div>
       </div>
       
-      <span className="section-label bottom-4 right-4">&lt;/div&gt;</span>
-    </div>
+      <span className="section-label bottom-4 right-4">&lt;/section&gt;</span>
+    </section>
   );
 };
 

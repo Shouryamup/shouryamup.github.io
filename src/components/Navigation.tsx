@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDesignMode } from '@/contexts/DesignModeContext';
-import { Menu, Home, Briefcase, FolderKanban, Code2, Mail, User } from 'lucide-react';
+import { Menu, Home, Briefcase, FolderKanban, Code2, Mail, User, Sparkles } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 
 const sections = [
@@ -10,6 +10,7 @@ const sections = [
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'projects', label: 'Projects', icon: FolderKanban },
   { id: 'skills', label: 'Skills', icon: Code2 },
+  { id: 'inspirations', label: 'Inspirations', icon: Sparkles },
   { id: 'contact', label: 'Contact', icon: Mail },
 ];
 
@@ -65,6 +66,7 @@ const Navigation = () => {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <motion.button
+                aria-label="Open navigation menu"
                 className={`flex items-center justify-center w-12 h-12 rounded-full glow-hover ${
                   isLaunchMode ? 'glass-card' : 'blueprint-container bg-background'
                 }`}

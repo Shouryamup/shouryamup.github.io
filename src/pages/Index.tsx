@@ -6,6 +6,7 @@ import About from '@/components/sections/About';
 import Experience from '@/components/sections/Experience';
 import Projects from '@/components/sections/Projects';
 import Skills from '@/components/sections/Skills';
+import Inspirations from '@/components/sections/Inspirations';
 import Contact from '@/components/sections/Contact';
 
 const Index = () => {
@@ -14,13 +15,14 @@ const Index = () => {
       <div className="min-h-screen">
         <DesignToggle />
         <Navigation />
-        
+
         <main>
           <Hero />
           <About />
           <Experience />
           <Projects />
           <Skills />
+          <Inspirations />
           <Contact />
         </main>
       </div>

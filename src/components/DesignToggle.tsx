@@ -24,6 +24,7 @@ const DesignToggle = () => {
           <motion.button
             key="collapsed"
             onClick={toggleMode}
+            aria-label={mode === 'blueprint' ? 'Switch to high-fidelity mode' : 'Switch to low-fidelity mode'}
             className="relative flex items-center justify-center w-12 h-12 rounded-full glow-hover"
             style={{
               background: isLaunchMode ? 'var(--glass-bg)' : 'hsl(var(--background))',
@@ -48,7 +49,8 @@ const DesignToggle = () => {
           <motion.button
             key="expanded"
             onClick={toggleMode}
-            className="relative flex items-center gap-3 px-4 py-2 blueprint-container rounded-lg glow-hover"
+            aria-label={mode === 'blueprint' ? 'Switch to high-fidelity mode' : 'Switch to low-fidelity mode'}
+            className="relative flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 blueprint-container rounded-lg glow-hover"
             style={{
               background: isLaunchMode ? 'var(--glass-bg)' : 'hsl(var(--background))',
               backdropFilter: isLaunchMode ? 'blur(20px)' : 'none',
@@ -61,7 +63,7 @@ const DesignToggle = () => {
             {/* Blueprint Label */}
             <span className="section-label -top-2 left-2">&lt;button&gt;</span>
             
-            <span className={`text-xs font-mono uppercase tracking-wider ${
+            <span className={`hidden sm:inline text-xs font-mono uppercase tracking-wider ${
               mode === 'blueprint' ? 'text-foreground' : 'text-muted-foreground'
             }`}>
               Low-Fi
@@ -99,7 +101,7 @@ const DesignToggle = () => {
               </motion.div>
             </div>
             
-            <span className={`text-xs font-mono uppercase tracking-wider ${
+            <span className={`hidden sm:inline text-xs font-mono uppercase tracking-wider ${
               mode === 'launch' ? 'text-foreground' : 'text-muted-foreground'
             }`}>
               High-Fi
