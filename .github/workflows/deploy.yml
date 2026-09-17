@@ -2,8 +2,17 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Which version of the site to deploy'
+        required: true
+        default: 'v3'
+        type: choice
+        options:
+          - v3
+          - v2
 
 permissions:
   contents: read
@@ -18,8 +27,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Resolve ref to deploy
+        id: resolve-ref
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.version }}" = "v2" ]; then
+            echo "ref=v2" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=main" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.resolve-ref.outputs.ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
