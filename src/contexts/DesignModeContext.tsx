@@ -39,13 +39,11 @@ export const DesignModeProvider: React.FC<{ children: ReactNode }> = ({ children
 
   useEffect(() => {
     const root = document.documentElement;
-    if (mode === 'live') {
-      root.classList.add('live-mode');
-      document.body.classList.add('live-mode');
-    } else {
-      root.classList.remove('live-mode');
-      document.body.classList.remove('live-mode');
-    }
+    const body = document.body;
+    root.classList.toggle('live-mode', mode === 'live');
+    body.classList.toggle('live-mode', mode === 'live');
+    root.classList.toggle('code-mode', mode === 'code');
+    body.classList.toggle('code-mode', mode === 'code');
   }, [mode]);
 
   return (

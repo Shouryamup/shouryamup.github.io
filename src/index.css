@@ -75,6 +75,54 @@
     opacity: 0.035;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+
+  /* VS Code-styled scrollbars for the code-mode page — the page's own
+     vertical scroll (moving between files) and each code block's
+     horizontal scroll (panning long lines) share the same look. */
+  html.code-mode {
+    scrollbar-color: #3c3c3c #1e1e1e;
+    scrollbar-width: thin;
+  }
+
+  html.code-mode::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  html.code-mode::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+
+  html.code-mode::-webkit-scrollbar-thumb {
+    background-color: #3c3c3c;
+    border: 3px solid #1e1e1e;
+    border-radius: 7px;
+  }
+
+  html.code-mode::-webkit-scrollbar-thumb:hover {
+    background-color: #4a4a4a;
+  }
+
+  .code-hscroll {
+    scrollbar-color: #3c3c3c #1e1e1e;
+    scrollbar-width: thin;
+  }
+
+  .code-hscroll::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .code-hscroll::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+
+  .code-hscroll::-webkit-scrollbar-thumb {
+    background-color: #3c3c3c;
+    border-radius: 5px;
+  }
+
+  .code-hscroll::-webkit-scrollbar-thumb:hover {
+    background-color: #007acc;
+  }
 }
 
 @layer utilities {

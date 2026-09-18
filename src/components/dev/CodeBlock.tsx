@@ -64,21 +64,21 @@ const CodeBlock = ({ fileName, code }: CodeBlockProps) => {
 
   return (
     <div className="font-mono text-[13px] leading-[1.7]">
-      <div className="sticky top-0 z-10 flex items-center gap-2 px-4 sm:px-6 py-2 bg-[#252526]/95 backdrop-blur-sm border-y border-[#3c3c3c] text-[#969696] text-xs">
+      <div className="sticky top-0 z-10 flex items-center gap-2 px-4 sm:px-6 py-2 bg-[#252526]/95 backdrop-blur-sm border-b border-[#3c3c3c] border-t-2 border-t-[#007acc] text-[#969696] text-xs">
         <span className="text-[#569cd6]">TS</span>
         <span className="text-white">{fileName}</span>
       </div>
-      <div className="flex overflow-x-auto">
+      <div className="flex">
         <div className="select-none pl-4 sm:pl-6 pr-3 py-4 text-right text-[#5a5a5a]">
           {lines.map((_, i) => (
             <div key={i}>{i + 1}</div>
           ))}
         </div>
-        <pre className="pr-4 sm:pr-6 py-4 flex-1 overflow-visible">
+        <pre className="pr-4 sm:pr-6 py-4 flex-1 overflow-x-auto code-hscroll">
           {lines.map((line, i) => (
             <div key={i}>
               {line.length === 0 ? (
-                ' '
+                ' '
               ) : (
                 tokenizeLine(line).map((token, j) => (
                   <span key={j} className={TOKEN_COLOR[token.type]}>
