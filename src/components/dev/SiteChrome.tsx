@@ -4,6 +4,7 @@ import { useDesignMode } from '@/contexts/DesignModeContext';
 import { useActiveSection } from '@/hooks/use-active-section';
 import { siteSections, SiteSection } from '@/data/sections';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
+import CommandPalette from './CommandPalette';
 
 const codeFiles: SiteSection[] = [
   { id: 'readme', label: 'Readme', fileName: 'README.md', icon: FileText },
@@ -62,7 +63,8 @@ const SiteChrome = () => {
 
   return (
     <>
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+        {!isCodeMode && <CommandPalette />}
         <ModeToggle />
       </div>
 

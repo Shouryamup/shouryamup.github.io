@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { portfolioData } from '@/data/portfolioData';
 import { highlightKeywords } from '@/lib/highlight-keywords';
+import { useSpotlight } from '@/hooks/use-spotlight';
 import { Github, ArrowUpRight } from 'lucide-react';
 import projectIntellibank from '@/assets/project-intellibank.jpg';
 import projectGatorhive from '@/assets/project-gatorhive.jpg';
@@ -33,10 +34,14 @@ const ProjectsContent = () => {
   const [selected, setSelected] = useState<Project | null>(null);
   const [featured, ...rest] = projects;
 
-  const Card = ({ project, tall = false }: { project: Project; tall?: boolean }) => (
+  const Card = ({ project, tall = false }: { project: Project; tall?: boolean }) => {
+    const spotlight = useSpotlight<HTMLButtonElement>();
+    return (
     <button
+      ref={spotlight.ref}
+      onMouseMove={spotlight.onMouseMove}
       onClick={() => setSelected(project)}
-      className="group relative text-left rounded-2xl overflow-hidden border border-border bg-card hover:border-foreground/20 hover:shadow-[0_20px_50px_-24px_rgba(0,0,0,0.35)] transition-all duration-300 flex flex-col"
+      className="spotlight-card group relative text-left rounded-2xl overflow-hidden border border-border bg-card hover:border-foreground/20 hover:shadow-[0_20px_50px_-24px_rgba(0,0,0,0.35)] transition-all duration-300 flex flex-col"
     >
       <div className={`relative overflow-hidden ${tall ? 'aspect-[16/10]' : 'aspect-video'}`}>
         <img
@@ -63,7 +68,8 @@ const ProjectsContent = () => {
         <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{project.description}</p>
       </div>
     </button>
-  );
+    );
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16 md:py-20">

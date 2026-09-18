@@ -5,6 +5,10 @@ export interface SectionRef {
   label: string;
 }
 
+export const scrollToSection = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+};
+
 export const useActiveSection = (sections: SectionRef[]) => {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? '');
 
@@ -24,10 +28,6 @@ export const useActiveSection = (sections: SectionRef[]) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [sections]);
-
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return { activeId, scrollToSection };
 };

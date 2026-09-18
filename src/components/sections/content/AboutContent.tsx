@@ -1,4 +1,5 @@
 import { portfolioData } from '@/data/portfolioData';
+import IconCard from '@/components/IconCard';
 
 const AboutContent = () => {
   const { about } = portfolioData;
@@ -15,18 +16,7 @@ const AboutContent = () => {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {about.values.map((value) => (
-              <div
-                key={value.title}
-                className="group flex gap-4 p-5 rounded-2xl border border-border bg-card hover:border-primary/30 hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.15)] transition-all duration-300"
-              >
-                <span className="flex items-center justify-center w-11 h-11 rounded-full bg-primary/10 text-xl shrink-0 group-hover:scale-110 transition-transform duration-300">
-                  {value.icon}
-                </span>
-                <div>
-                  <h3 className="font-semibold text-foreground">{value.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{value.description}</p>
-                </div>
-              </div>
+              <IconCard key={value.title} icon={value.icon} title={value.title} description={value.description} />
             ))}
           </div>
         </div>
