@@ -30,48 +30,40 @@ const techLogos: Record<string, string> = {
 };
 
 const categories = [
-  { label: 'Languages', key: 'languages' as const, duration: '24s' },
-  { label: 'Frontend', key: 'frontend' as const, duration: '20s' },
-  { label: 'Backend', key: 'backend' as const, duration: '26s' },
-  { label: 'Cloud & DevOps', key: 'cloud' as const, duration: '22s' },
+  { label: 'Languages', key: 'languages' as const },
+  { label: 'Frontend', key: 'frontend' as const },
+  { label: 'Backend', key: 'backend' as const },
+  { label: 'Cloud & DevOps', key: 'cloud' as const },
 ];
 
 const SkillsContent = () => {
   const { skills } = portfolioData;
 
   return (
-    <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16 md:py-20">
+    <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20 md:py-28">
       <div className="grid md:grid-cols-[220px_1fr] gap-10 md:gap-16">
         <h2 className="text-2xl font-semibold text-foreground">Skills</h2>
 
-        <div className="space-y-8 min-w-0">
-          {categories.map((category) => {
-            const items = skills[category.key];
-            const doubled = [...items, ...items];
-            return (
-              <div key={category.key}>
-                <h3 className="text-sm font-medium text-muted-foreground mb-3">{category.label}</h3>
-                <div className="marquee-mask overflow-hidden">
-                  <div
-                    className="marquee-track flex w-max gap-3"
-                    style={{ '--marquee-duration': category.duration } as React.CSSProperties}
-                  >
-                    {doubled.map((skill, i) => (
-                      <span
-                        key={`${skill}-${i}`}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-card text-sm text-foreground shrink-0"
-                      >
-                        {techLogos[skill] && (
-                          <img src={techLogos[skill]} alt="" className="w-4 h-4 object-contain" />
-                        )}
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        <div className="grid sm:grid-cols-2 gap-x-12 gap-y-10">
+          {categories.map((category) => (
+            <div key={category.key}>
+              <h3 className="text-sm font-medium text-muted-foreground border-b border-border pb-2 mb-4">
+                {category.label}
+              </h3>
+              <ul className="space-y-2.5">
+                {skills[category.key].map((skill) => (
+                  <li key={skill} className="flex items-center gap-2.5 text-[15px] text-foreground">
+                    {techLogos[skill] ? (
+                      <img src={techLogos[skill]} alt="" className="w-4 h-4 object-contain shrink-0" />
+                    ) : (
+                      <span className="w-4 h-4 shrink-0" />
+                    )}
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </div>

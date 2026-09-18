@@ -15,14 +15,21 @@ const HeroContent = () => {
   const linkedinMagnet = useMagnetic<HTMLAnchorElement>();
 
   return (
-    <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-16 pb-12 md:pt-24 md:pb-16">
-      <div className="grid md:grid-cols-[1.3fr_1fr] gap-10 md:gap-16 items-center">
+    <div className="relative max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none select-none absolute -top-6 -left-4 sm:-top-10 sm:-left-6 md:-top-24 md:-left-10 text-[130px] sm:text-[220px] md:text-[380px] font-semibold leading-none text-primary/[0.06]"
+      >
+        {'{ }'}
+      </span>
+
+      <div className="relative grid md:grid-cols-[1.3fr_1fr] gap-12 md:gap-16 items-center">
         <div>
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="font-semibold tracking-tight leading-[0.95] text-foreground text-[clamp(2.75rem,7vw,5.5rem)]"
+            className="font-semibold tracking-tight leading-[0.95] text-foreground text-[clamp(3rem,8vw,6.5rem)]"
           >
             {personal.name}
           </motion.h1>
@@ -31,7 +38,7 @@ const HeroContent = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-5 text-xl sm:text-2xl font-medium text-primary"
+            className="mt-6 text-xl sm:text-2xl font-medium text-primary"
           >
             {personal.title}
           </motion.p>
@@ -40,7 +47,7 @@ const HeroContent = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-5 max-w-[48ch] text-base sm:text-lg leading-relaxed text-muted-foreground"
+            className="mt-6 max-w-[48ch] text-base sm:text-lg leading-relaxed text-muted-foreground"
           >
             {personal.headline}.
           </motion.p>
@@ -49,7 +56,7 @@ const HeroContent = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 flex flex-wrap items-center gap-3"
+            className="mt-10 flex flex-wrap items-center gap-3"
           >
             <a
               ref={emailMagnet.ref}
@@ -77,13 +84,13 @@ const HeroContent = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-12 grid grid-cols-3 gap-4 max-w-lg"
+            className="mt-16 flex flex-wrap gap-x-10 gap-y-6"
           >
             {stats.map((stat) => (
-              <div key={stat.value}>
+              <div key={stat.value} className="max-w-[14rem]">
                 <dt className="sr-only">{stat.label}</dt>
-                <dd className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">{stat.value}</dd>
-                <p className="mt-1 text-xs text-muted-foreground leading-snug">{stat.label}</p>
+                <dd className="text-3xl font-semibold text-foreground tracking-tight">{stat.value}</dd>
+                <p className="mt-1 text-sm text-muted-foreground leading-snug">{stat.label}</p>
               </div>
             ))}
           </motion.dl>
@@ -95,7 +102,7 @@ const HeroContent = () => {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-48 sm:w-64 md:w-full mx-auto md:mx-0"
         >
-          <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-primary/10" />
+          <div className="absolute -inset-5 -z-10 rounded-[2.5rem] bg-primary/15" />
           <img
             src={headshot}
             alt={personal.name}

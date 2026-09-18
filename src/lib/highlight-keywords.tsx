@@ -9,7 +9,7 @@ export const highlightKeywords = (text: string, keywords: string[]) => {
   return parts.map((part, index) => {
     if (lowerKeywords.has(part.toLowerCase())) {
       return (
-        <span key={index} className="font-medium text-foreground">
+        <span key={index} className="rounded px-1 -mx-0.5 bg-primary/10 text-foreground font-medium">
           {part}
         </span>
       );
